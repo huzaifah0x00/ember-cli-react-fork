@@ -1,8 +1,9 @@
 import { classify } from '@ember/string';
-import { get } from '@ember/object';
 import Resolver from 'ember-resolver';
 
 import ReactComponent from 'ember-cli-react/components/react-component';
+import GlimmerComponent from '@glimmer/component';
+import EmberComponent from '@ember/component';
 
 export default Resolver.extend({
   // `resolveComponent` is triggered when rendering a component in template.
@@ -21,13 +22,14 @@ export default Resolver.extend({
 
     // If there is an Ember component found, return it.
     // This includes the `react-component` Ember component.
-    if (get(result, 'isComponentFactory')) {
+    const isEmberComponent =
+      result.prototype instanceof GlimmerComponent ||
+      result.prototype instanceof EmberComponent;
+    if (isEmberComponent) {
       return result;
     } else {
       // This enables using React Components directly in template
-      return ReactComponent.extend({
-        reactComponent: result,
-      });
+      return ReactComponent.extend({ reactComponent: result });
     }
   },
 

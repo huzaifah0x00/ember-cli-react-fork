@@ -8,7 +8,7 @@ module.exports = {
   preprocessTree: function(type, tree) {
     if (type === 'js') {
       const babelOptions = {
-        filterExtensions: ['jsx'],
+        filterExtensions: ['jsx', 'tsx'],
         presets: ['@babel/preset-react'],
       };
       return babel(tree, babelOptions);
