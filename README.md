@@ -1,5 +1,7 @@
-**Note:** This is a fork of https://github.com/AltSchool/ember-cli-react due to its inactivity.
+**Note:** This is a fork of https://github.com/pswai/ember-cli-react-fork due to its inactivity which was a fork of https://github.com/AltSchool/ember-cli-react due to its inactivity.
 It uses the same addon name so it is almost a drop-in replacement.
+
+the primary purpose of this addon is to enable tsx support, and update the resolver because it had trouble finding some ember components earlier.
 
 # ember-cli-react-fork
 
@@ -13,9 +15,9 @@ Use clean React component hierarchies inside your Ember app.
 Install the addon in your app:
 
 ```
-yarn add --dev ember-cli-react-fork
+yarn add --dev https://github.com/huzaifah0x00/ember-cli-react-fork
 # OR
-npm i -D ember-cli-react-fork
+npm i -D https://github.com/huzaifah0x00/ember-cli-react-fork
 
 # This triggers addon blueprint to do necessary setup
 ember generate ember-cli-react
@@ -25,6 +27,8 @@ ember generate ember-cli-react
 If you have installed `ember-cli-react` with the standard way then you should be
 fine. Otherwise, you will need to manually update the first line of
 `app/resolver.js` to `import Resolver from 'ember-cli-react/resolver';`.
+
+**NOTE** you will need to update your app.js file to use the custom resolver (app/resolver.js) instead of the default 'ember-resolver' package
 
 <details><summary><strong>Upgrading to 1.0</strong></summary>
 <p>

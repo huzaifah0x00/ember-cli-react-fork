@@ -1,9 +1,9 @@
 import { classify } from '@ember/string';
 import Resolver from 'ember-resolver';
-
 import ReactComponent from 'ember-cli-react/components/react-component';
-import GlimmerComponent from '@glimmer/component';
-import EmberComponent from '@ember/component';
+
+let maxTime = 0;
+let count = 0;
 
 export default Resolver.extend({
   // `resolveComponent` is triggered when rendering a component in template.
@@ -20,17 +20,35 @@ export default Resolver.extend({
       return;
     }
 
-    // If there is an Ember component found, return it.
-    // This includes the `react-component` Ember component.
-    const isEmberComponent =
-      result.prototype instanceof GlimmerComponent ||
-      result.prototype instanceof EmberComponent;
-    if (isEmberComponent) {
-      return result;
-    } else {
-      // This enables using React Components directly in template
+    var startTime = performance.now();
+    const isReactCompnent = this._isReactComponent(result);
+    var endTime = performance.now();
+    count += 1;
+    if (endTime - startTime > maxTime) {
+      maxTime = endTime - startTime;
+    }
+
+    console.log(`time taken for _isReactComponent: ${endTime - startTime}ms`);
+    console.log(
+      `total time (ms) for all isReactComponent calls: ${maxTime * count}ms`
+    );
+
+    if (isReactCompnent) {
       return ReactComponent.extend({ reactComponent: result });
     }
+
+    return result;
+
+    // // alternative method for detecting if a component is an Ember component first.
+    // // If there is an Ember component found, return it.
+    // // This includes the `react-component` Ember component.
+    // const isEmberComponent = result.prototype instanceof GlimmerComponent || result.prototype instanceof EmberComponent;
+    // if (isEmberComponent) {
+    //   return result;
+    // } else {
+    //   // This enables using React Components directly in template
+    //   return ReactComponent.extend({ reactComponent: result });
+    // }
   },
 
   // This resolver method is defined when we try to lookup from `react-component`.
@@ -60,5 +78,29 @@ export default Resolver.extend({
     });
     const result = this.resolveOther(parsedNameWithPascalCase);
     return result;
+  },
+
+  _isClassComponent(component) {
+    return (
+      typeof component === 'function' && !!component.prototype.isReactComponent
+    );
+  },
+
+  _isFunctionComponent(component) {
+    if (typeof component === 'function') {
+      const componentString = String(component);
+      // check if componentString is a react functional component
+      return (
+        /_react.+createElement\(/.test(componentString) ||
+        /React.+createElement\(/.test(componentString)
+      );
+    }
+    return false;
+  },
+
+  _isReactComponent(component) {
+    return (
+      this._isClassComponent(component) || this._isFunctionComponent(component)
+    );
   },
 });
