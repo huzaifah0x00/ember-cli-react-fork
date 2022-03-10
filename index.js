@@ -9,7 +9,7 @@ module.exports = {
     if (type === 'js') {
       const babelOptions = {
         filterExtensions: ['jsx', 'tsx'],
-        presets: ['@babel/preset-react'],
+        presets: ['@babel/preset-react', '@babel/preset-typescript'],
       };
       return babel(tree, babelOptions);
     }
