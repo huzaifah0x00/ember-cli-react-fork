@@ -89,16 +89,16 @@ export default Resolver.extend({
   _isFunctionComponent(component) {
     if (typeof component === 'function') {
       const componentString = String(component);
-      // check if componentString is a react functional component
       return (
-        /_react.+createElement\(/.test(componentString) ||
-        /React.+createElement\(/.test(componentString)
+        /_react.+\.createElement\(/.test(componentString) ||
+        /React.+\.createElement\(/.test(componentString)
       );
     }
     return false;
   },
 
   _isReactComponent(component) {
+    // https://stackoverflow.com/a/41658173
     return (
       this._isClassComponent(component) || this._isFunctionComponent(component)
     );
