@@ -1,7 +1,7 @@
 **Note:** This is a fork of https://github.com/pswai/ember-cli-react-fork due to its inactivity which was a fork of https://github.com/AltSchool/ember-cli-react due to its inactivity.
 It uses the same addon name so it is almost a drop-in replacement.
 
-the primary purpose of this addon is to enable tsx support, and update the resolver because it had trouble finding some ember components earlier.
+the primary purpose of this addon is to [enable tsx support](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/80a4907bd49730a604dcce6e89c261e3fbf80435), and update the resolver because it had [trouble finding some ember components](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/0c10fbd239725ac44562e1112ffa84770ab9da80).
 
 # ember-cli-react-fork
 
