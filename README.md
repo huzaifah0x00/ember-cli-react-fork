@@ -10,6 +10,19 @@ the primary purpose of this addon is to enable tsx support, and update the resol
 
 Use clean React component hierarchies inside your Ember app.
 
+
+
+## How does this work? What exactly is this addon doing to my Ember app?
+
+The addon adds a custom [resolver](https://github.com/ember-cli/ember-resolver) (Simply put, A resolver is what is responsible for looking up the component definition in the component factory whenever the Ember App encounters a component in any .hbs file...) to your Ember App.
+
+What this custom resolver does is enables you to:
+
+1. use PascalCase filenames for component files ( this allows you to use the React convention of PascalCase filenames in Ember.js app ( which enforces kebab-case by default ) )
+2. export React components ( functional or class-based ) from a component file and expect it to work without doing any extra steps...
+3. This is done by checking if the resolved file exports a React component ( see [resolver.js](./addon/resolver.js) for more details ) and wrapping the exported React component with an  [Ember component (react-component.js)](./addon/components/react-component.js) this component calls ReactDOM.render in it's `didRender()` method and renders the original React Component onto the DOM, while passing all the props recieved through the hbs file to the actual React Component. see [react-component.js](./addon/components/react-component.js) for more details on how this is implemented.
+
+
 ## Install
 
 Install the addon in your app:
@@ -203,17 +216,3 @@ In order to create minified production builds of React you must set
 `NODE_ENV=production`.
 
 ## 
-
-## What exactly is this addon doing to my Ember app?
-
-tl;dr
-
-The addon adds a custom [resolver](https://github.com/ember-cli/ember-resolver) (Simply put, A resolver is what is responsible for looking up the component definition in the component factory whenever the Ember App encounters a component in any .hbs file...) to your Ember App.
-
-What this custom resolver does is enables you to:
-
-1. use PascalCase filenames for component files ( this allows you to use the React convention of PascalCase filenames in Ember.js app ( which enforces kebab-case by default ) )
-
-2. export React components ( functional or class-based ) from a component file without doing any extra steps...
-
-3. This is done by checking if the resolved file exports a React component ( see [resolver.js](./addon/resolver.js) for more details ) and wrapping the exported React component with an  [Ember component (react-component.js)](./addon/components/react-component.js) this component calls ReactDOM.render in it's `didRender()` method and renders the original React Component onto the DOM, while passing all the props recieved through the hbs file to the actual React Component. see [react-component.js](./addon/components/react-component.js) for more details on how this is implemented.
