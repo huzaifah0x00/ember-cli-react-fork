@@ -20,18 +20,7 @@ export default Resolver.extend({
       return;
     }
 
-    var startTime = performance.now();
     const isReactCompnent = this._isReactComponent(result);
-    var endTime = performance.now();
-    count += 1;
-    if (endTime - startTime > maxTime) {
-      maxTime = endTime - startTime;
-    }
-
-    console.log(`time taken for _isReactComponent: ${endTime - startTime}ms`);
-    console.log(
-      `total time (ms) for all isReactComponent calls: ${maxTime * count}ms`
-    );
 
     if (isReactCompnent) {
       return ReactComponent.extend({ reactComponent: result });
@@ -42,7 +31,10 @@ export default Resolver.extend({
     // // alternative method for detecting if a component is an Ember component first.
     // // If there is an Ember component found, return it.
     // // This includes the `react-component` Ember component.
-    // const isEmberComponent = result.prototype instanceof GlimmerComponent || result.prototype instanceof EmberComponent;
+    // const isEmberComponent =
+    //   result.prototype instanceof GlimmerComponent ||
+    //   result.prototype instanceof EmberComponent ||
+    //   result.moduleName === '@glimmer/component/template-only';
     // if (isEmberComponent) {
     //   return result;
     // } else {
