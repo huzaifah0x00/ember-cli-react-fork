@@ -1,5 +1,3 @@
-import { classify } from '@ember/string';
-import { typeOf } from '@ember/utils';
 import { reads } from '@ember/object/computed';
 import Component from '@ember/component';
 import { get } from '@ember/object';

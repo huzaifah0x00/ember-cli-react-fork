@@ -25,12 +25,8 @@ module.exports = {
   afterInstall: async function() {
     const packages = [
       {
-        name: '@types/react-dom',
-        target: getPeerDependencyVersion(pkg, '@types/react-dom'),
-      },
-      {
-        name: '@types/react',
-        target: getPeerDependencyVersion(pkg, '@types/react'),
+        name: 'ember-auto-import',
+        target: getDependencyVersion(pkg, 'ember-auto-import'),
       },
       {
         name: 'react',
@@ -39,6 +35,14 @@ module.exports = {
       {
         name: 'react-dom',
         target: getPeerDependencyVersion(pkg, 'react-dom'),
+      },
+      {
+        name: '@types/react-dom',
+        target: getPeerDependencyVersion(pkg, '@types/react-dom'),
+      },
+      {
+        name: '@types/react',
+        target: getPeerDependencyVersion(pkg, '@types/react'),
       },
     ];
     await this.addPackagesToProject(packages);
