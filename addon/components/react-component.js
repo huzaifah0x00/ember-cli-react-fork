@@ -9,7 +9,6 @@ import YieldWrapper from './react-component/yield-wrapper';
 
 import getMutableAttributes from 'ember-cli-react/utils/get-mutable-attributes';
 import hasBlock from 'ember-cli-react/utils/has-block';
-import lookupFactory from 'ember-cli-react/utils/lookup-factory';
 
 const ReactComponent = Component.extend({
   /**
@@ -26,24 +25,11 @@ const ReactComponent = Component.extend({
   },
 
   renderReactComponent() {
-    const componentClassOrName = get(this, 'reactComponent');
-    let componentClass;
-
-    if (typeOf(componentClassOrName) === 'string') {
-      componentClass = lookupFactory(
-        this,
-        `react-component:${componentClassOrName}`
-      );
-
-      // Set `displayName` so that it is visible in React devtools
-      componentClass.displayName = classify(componentClassOrName);
-    } else {
-      componentClass = componentClassOrName;
-    }
+    const componentClass = get(this, 'reactComponent');
 
     if (!componentClass) {
       throw new Error(
-        `Could not find react component : ${componentClassOrName}`
+        `ember-cli-react/react-component used without a 'reactComponent' property.`
       );
     }
 
