@@ -25,10 +25,6 @@ module.exports = {
   afterInstall: async function() {
     const packages = [
       {
-        name: 'ember-auto-import',
-        target: getDependencyVersion(pkg, 'ember-auto-import'),
-      },
-      {
         name: 'react',
         target: getPeerDependencyVersion(pkg, 'react'),
       },
@@ -40,8 +36,8 @@ module.exports = {
     await this.addPackagesToProject(packages);
     let appFile = fs.readFileSync('app/app.js', 'utf8');
     const updatedAppFile = appFile.replace(
-      "import Resolver from 'ember-resolver';",
-      "import Resolver from './resolver';"
+      'import Resolver from "ember-resolver";',
+      'import Resolver from "./resolver";'
     );
 
     if (updatedAppFile !== appFile) {
