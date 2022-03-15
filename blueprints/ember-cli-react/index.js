@@ -25,6 +25,14 @@ module.exports = {
   afterInstall: async function() {
     const packages = [
       {
+        name: '@types/react-dom',
+        target: getPeerDependencyVersion(pkg, '@types/react-dom'),
+      },
+      {
+        name: '@types/react',
+        target: getPeerDependencyVersion(pkg, '@types/react'),
+      },
+      {
         name: 'react',
         target: getPeerDependencyVersion(pkg, 'react'),
       },
