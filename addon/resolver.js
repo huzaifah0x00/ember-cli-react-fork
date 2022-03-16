@@ -18,7 +18,7 @@ export default Resolver.extend({
     const isReactCompnent = this._isReactComponent(result);
 
     if (isReactCompnent) {
-      return ReactComponent.extend({ reactComponent: result });
+      return ReactComponent.wrap(result);
     }
 
     return result;

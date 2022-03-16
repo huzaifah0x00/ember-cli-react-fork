@@ -1,0 +1,14 @@
+<div
+  {{did-insert this.didRender}}
+  {{did-update this.onUpdate this.blockChildren this.args}}
+  {{will-destroy this.willDestroy}}
+  class='react-element-wrapper'
+></div>
+
+{{#if (has-block)}}
+  <div id='yield-content-temporary-placeholder' {{did-insert this.onYieldBlockInserted}} {{did-update this.onBlockUpdated}}>
+    {{!-- This content will be deleted when onYieldBlockInserted is called,
+      this element is only declared to render the yield content properly in react component --}}
+    {{yield}}
+  </div>
+{{/if}}

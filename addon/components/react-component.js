@@ -1,37 +1,33 @@
-import { reads } from '@ember/object/computed';
-import Component from '@ember/component';
-import { get } from '@ember/object';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import Component from '@glimmer/component';
+
+import { guidFor } from '@ember/object/internals';
+import { tracked } from '@glimmer/tracking';
+
 import YieldWrapper from './react-component/yield-wrapper';
 
-import getMutableAttributes from 'ember-cli-react/utils/get-mutable-attributes';
-import hasBlock from 'ember-cli-react/utils/has-block';
+export default class ReactComponentWrapper extends Component {
+  reactComponent;
 
-const ReactComponent = Component.extend({
-  /**
-    The React component that this Ember component should wrap.
+  elementId = guidFor(this);
+  @tracked blockChildren = [];
 
-    @property reactComponent
-    @type React.Component | Function | String
-    @default null
-   */
-  reactComponent: reads('_reactComponent'),
+  onUpdate = element => {
+    console.log(
+      'onUpdate called... should probably debug this if you see this message very often ( ember-cli-react )'
+    );
+    this.didRender(element);
+  };
 
-  didRender: function() {
-    this.renderReactComponent();
-  },
-
-  renderReactComponent() {
-    const componentClass = get(this, 'reactComponent');
-
-    if (!componentClass) {
+  didRender = element => {
+    if (!this.reactComponent)
       throw new Error(
-        `ember-cli-react/react-component used without a 'reactComponent' property.`
+        'reactComponent is not defined, did you forget to use .wrap?'
       );
-    }
 
-    const props = getMutableAttributes(get(this, 'attrs'));
+    const props = { ...this.args };
 
     // Determine the children
     // If there is already `children` in `props`, we just pass it down (it can be function).
@@ -41,43 +37,40 @@ const ReactComponent = Component.extend({
     // Without reconstructing, `childNodes` will include the React component itself when
     // `componentDidMount` hook is triggerred.
     let children = props.children;
-    if (!children) {
-      const childNodes = get(this, 'element.childNodes');
-
-      // In Ember 2.8, an empty comment node is still created for non-block form
-      // component. This behavior breaks any component that does not expect
-      // children to exist.
-      // We can safely assume that there is no child node if:
-      // - The component is not in block form
-      // - There is no child node (of course)
-
-      // For other cases, we need to create a YieldWrapper to hold the nodes
-      if (hasBlock(this) && childNodes.length > 0) {
-        children = [
-          React.createElement(YieldWrapper, {
-            key: get(this, 'elementId'),
-            nodes: [...childNodes],
-          }),
-        ];
-      }
+    if (!children && this.blockChildren.length > 1) {
+      children = [
+        React.createElement(YieldWrapper, {
+          key: this.elementId,
+          nodes: [...this.blockChildren],
+        }),
+      ];
     }
 
     ReactDOM.render(
-      React.createElement(componentClass, props, children),
-      get(this, 'element')
+      React.createElement(this.reactComponent, { ...this.args }, children),
+      element
     );
-  },
+  };
 
-  willDestroyElement: function() {
-    ReactDOM.unmountComponentAtNode(get(this, 'element'));
-  },
-});
+  onYieldBlockInserted = element => {
+    this.blockChildren = element.childNodes;
+    element.remove();
+  };
 
-ReactComponent.reopenClass({
-  // Some versions of Ember override positional param value to undefined when
-  // a subclass is created using `Ember.extend({ reactComponent: foo })` so
-  // instead store this value in a separate property.
-  positionalParams: ['_reactComponent'],
-});
+  onBlockUpdated = element => {
+    alert('Unimplemented: onBlockUpdated... (ember-cli-react)');
+  };
 
-export default ReactComponent;
+  willDestroy = element => {
+    ReactDOM.unmountComponentAtNode(element);
+  };
+
+  static wrap(reactComponent) {
+    // this is ( probably ) equivalent to the .extend({ reactComponent }) method for Ember component classes.
+    // what this does is to create a new class that extends the current class... but overwrites the reactComponent property
+    // I'm not sure if there is a better way to do this.
+    return class Wrapper extends this {
+      reactComponent = reactComponent;
+    };
+  }
+}

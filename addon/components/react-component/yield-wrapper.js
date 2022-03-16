@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 /**
  * A React component that is used to render HTML Nodes.
@@ -14,27 +14,16 @@ import React from 'react';
  *
  * Integration guide: https://reactjs.org/docs/integrating-with-other-libraries.html
  */
-class YieldWrapper extends React.Component {
-  componentDidMount() {
-    // Different with the integration guide, we avoid jQuery here
+export default function YieldWrapper(props) {
+  const el = useRef(null);
+
+  useEffect(() => {
     const fragment = document.createDocumentFragment();
-    for (let node of this.props.nodes) {
-      fragment.appendChild(node);
-    }
+    props.nodes.forEach(n => fragment.appendChild(n));
 
     // This replace the original DOM element
-    this.el.parentNode.replaceChild(fragment, this.el);
-  }
+    el.current.parentNode.replaceChild(fragment, el.current);
+  }, []);
 
-  componentWillUnmount() {}
-
-  render() {
-    // This element is temporary. When this is mounted,
-    // it will be replaced by the children nodes, handled by Ember.
-    return React.createElement('span', {
-      ref: el => (this.el = el),
-    });
-  }
+  return React.createElement('span', { ref: el });
 }
-
-export default YieldWrapper;
