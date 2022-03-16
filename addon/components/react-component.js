@@ -61,7 +61,7 @@ export default class ReactComponentWrapper extends Component {
     alert('Unimplemented: onBlockUpdated... (ember-cli-react)');
   };
 
-  willDestroy = element => {
+  willDestroyNode  = element => {
     ReactDOM.unmountComponentAtNode(element);
   };
 
