@@ -1,6 +1,6 @@
 import { classify } from '@ember/string';
 import Resolver from 'ember-resolver';
-import ReactComponent from 'ember-cli-react/components/react-component';
+import ReactComponentWrapper from 'ember-cli-react/components/react-component';
 
 export default Resolver.extend({
   // `resolveComponent` is triggered when rendering a component in template.
@@ -15,10 +15,8 @@ export default Resolver.extend({
     // If there is no result found after all, return nothing
     if (!result) return;
 
-    const isReactCompnent = this._isReactComponent(result);
-
     if (isReactCompnent) {
-      return ReactComponent.wrap(result);
+      return ReactComponentWrapper.wrap(result);
     }
 
     return result;
@@ -45,16 +43,18 @@ export default Resolver.extend({
 
   _isClassComponent(component) {
     return (
-      typeof component === 'function' && !!component.prototype.isReactComponent
+      typeof component === 'function' && !!component.prototype?.isReactComponent
     );
   },
 
   _isFunctionComponent(component) {
+    // This check relies on the fact that the JSX is transpiled to
+    // React.createElement(*) or _react *.createElement(*)
     if (typeof component === 'function') {
-      const componentString = String(component);
+      const functionSourceCode = String(component);
       return (
-        /_react.*\.createElement\(/.test(componentString) ||
-        /React.*\.createElement\(/.test(componentString)
+        /_react.*\.createElement\(/.test(functionSourceCode) ||
+        /React.*\.createElement\(/.test(functionSourceCode)
       );
     }
     return false;
