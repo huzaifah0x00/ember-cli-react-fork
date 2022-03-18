@@ -15,6 +15,7 @@ export default Resolver.extend({
     // If there is no result found after all, return nothing
     if (!result) return;
 
+    const isReactCompnent = this._isReactComponent(result);
     if (isReactCompnent) {
       return ReactComponentWrapper.wrap(result);
     }
