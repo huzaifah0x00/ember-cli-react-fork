@@ -6,28 +6,31 @@ import Component from '@glimmer/component';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
 
-import YieldWrapper from './react-component/yield-wrapper';
+import YieldWrapper from './yield-wrapper';
 
-export default class ReactComponentWrapper extends Component {
+export default class ReactWrapperComponent extends Component {
   reactComponent;
 
   elementId = guidFor(this);
   @tracked blockChildren = [];
 
-  onUpdate = element => {
+  get emberArgs() {
+    // make this.args trackable?
+    return { ...this.args };
+  }
+
+  onUpdate = (element) => {
     console.log(
-      'onUpdate called... should probably debug this if you see this message very often ( ember-cli-react )'
+      'onUpdate called... TODO: debug this if you see this message infinitely ( ember-cli-react )'
     );
     this.didRender(element);
   };
 
-  didRender = element => {
+  didRender = (element) => {
     if (!this.reactComponent)
-      throw new Error(
-        'reactComponent is not defined, did you forget to use .wrap?'
-      );
+      throw new Error('reactComponent is not defined, did you forget to use .wrap?');
 
-    const props = { ...this.args };
+    const props = this.emberArgs;
 
     // Determine the children
     // If there is already `children` in `props`, we just pass it down (it can be function).
@@ -46,22 +49,19 @@ export default class ReactComponentWrapper extends Component {
       ];
     }
 
-    ReactDOM.render(
-      React.createElement(this.reactComponent, { ...this.args }, children),
-      element
-    );
+    ReactDOM.render(React.createElement(this.reactComponent, props, children), element);
   };
 
-  onYieldBlockInserted = element => {
+  onYieldBlockInserted = (element) => {
     this.blockChildren = element.childNodes;
     element.remove();
   };
 
-  onBlockUpdated = element => {
+  onBlockUpdated = () => {
     alert('Unimplemented: onBlockUpdated... (ember-cli-react)');
   };
 
-  willDestroyNode  = element => {
+  willDestroyNode = (element) => {
     ReactDOM.unmountComponentAtNode(element);
   };
 

@@ -1,15 +1,1 @@
-{{todo-list
-  onToggle=(action onToggle)
-  todos=model
-}}
-
-Completed {{completedTodos.length}} todos
-
-{{#react-component "the-wrapper"}}
-  <span>
-    <button type='button' {{action 'resetAll'}}>Test</button>
-    {{#each completedTodos as |todo|}}
-      <span>{{todo.text}}, </span>
-    {{/each}}
-  </span>
-{{/react-component}}
+<Homepage />

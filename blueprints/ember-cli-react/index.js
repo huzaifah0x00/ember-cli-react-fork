@@ -1,5 +1,3 @@
-/*jshint node:true*/
-
 var pkg = require('../../package.json');
 const fs = require('fs');
 
@@ -49,7 +47,7 @@ module.exports = {
     let appFile = fs.readFileSync('app/app.js', 'utf8');
     const updatedAppFile = appFile.replace(
       'import Resolver from "ember-resolver";',
-      'import Resolver from "./resolver";'
+      'import Resolver from "ember-cli-react/resolver";'
     );
 
     if (updatedAppFile !== appFile) {
