@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
 
-export default Component.extend({
-  symbol: '!',
-});
+export default class EmberBox extends Component {
+  symbol = '!';
+}
