@@ -1,9 +1,8 @@
-import { assert, done, module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { click, fillIn, getResolver, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupOnerror, getResolver } from '@ember/test-helpers';
 import ReactResolver from 'ember-cli-react/resolver';
+import { setupRenderingTest } from 'ember-qunit';
+import { assert, module, test } from 'qunit';
 import React from 'react';
 import sinon from 'sinon';
 
@@ -205,7 +204,7 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
     const clickActionHandler = sinon.stub();
     this.set('didClickButton', clickActionHandler);
 
-    await render(hbs`<FancyButton {{on "click" this.didClickButton}} />`);
+    await render(hbs`<FancyButton @onClick={{this.didClickButton}} />`);
 
     await click('button');
     assert.true(clickActionHandler.called);
