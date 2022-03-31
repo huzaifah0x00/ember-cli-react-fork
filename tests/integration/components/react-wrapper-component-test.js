@@ -17,7 +17,7 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
       assert.ok(true);
     }
 
-    assert.ok(false);  // should not reach here
+    assert.ok(false); // should not reach here
   });
 
   test('custom resolver should be setup correctly', async function (assert) {
@@ -190,7 +190,7 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
     assert.dom(this.element).hasText('Hello Owen');
   });
 
-  test('rerenders when mutable state changes', async function (doneassert) {
+  test('rerenders when mutable state changes', async function () {
     await render(hbs`
       <Input aria-label="test" @value={{this.name}} />
       <SayHi @name={{this.name}} />
@@ -219,7 +219,7 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
   //   expect(this.element.querySelectorAll('.FancyButton')).to.have.length(1);
   // });
 
-  module('ember-cli-react resolver', function (hooks) {
+  module('ember-cli-react resolver', function () {
     test('supports React-style component file name', async function (assert) {
       await render(hbs`<ReactStyleFileName />`);
 
@@ -272,28 +272,26 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
 
           assert.dom(this.element).hasText('My file name is "SameNameDifferentCaseMixed.jsx"');
         });
-
       }
     );
 
-      // The React file will overwrite Ember file as that's how Broccoli-React works.
-      // Skipping this to keep this in mind.
-      module.skip('when both `same-name-same-case-mixed.jsx` and `same-name-same-case-mixed.js` (Ember) exist', function() {
-        test('prioritises the React component (same-name-same-case-mixed.js)', async function(assert) {
+    // The React file will overwrite Ember file as that's how Broccoli-React works.
+    // Skipping this to keep this in mind.
+    module.skip(
+      'when both `same-name-same-case-mixed.jsx` and `same-name-same-case-mixed.js` (Ember) exist',
+      function () {
+        test('prioritises the React component (same-name-same-case-mixed.js)', async function (assert) {
           await render(hbs`toberplaced-same-name-same-case-mixed`);
 
-          assert.dom(this.element).hasText(
-            'My file name is "same-name-same-case-mixed.jsx"'
-          );
+          assert.dom(this.element).hasText('My file name is "same-name-same-case-mixed.jsx"');
         });
 
-        test('prioritises the React component (same-name-same-case-mixed.js) when rendering directly', async function(assert) {
+        test('prioritises the React component (same-name-same-case-mixed.js) when rendering directly', async function (assert) {
           await render(hbs`{{same-name-ember}}`);
 
-          assert.dom(this.element).hasText(
-            'My file name is "same-name-same-case-mixed.jsx"'
-          );
+          assert.dom(this.element).hasText('My file name is "same-name-same-case-mixed.jsx"');
         });
-      });
+      }
+    );
   });
 });

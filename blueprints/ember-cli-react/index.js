@@ -1,13 +1,6 @@
 var pkg = require('../../package.json');
 const fs = require('fs');
 
-function getDependencyVersion(packageJson, name) {
-  var dependencies = packageJson.dependencies;
-  var devDependencies = packageJson.devDependencies;
-
-  return dependencies[name] || devDependencies[name];
-}
-
 function getPeerDependencyVersion(packageJson, name) {
   var peerDependencies = packageJson.peerDependencies;
 
@@ -54,8 +47,10 @@ module.exports = {
       );
       fs.writeFileSync('app/app.js', appFile);
     } else {
-      console.warn('ember-cli-react: app.js does not include Resolver. Please add the resolver manually.');
-      console.warn('( add import Resolver from "ember-cli-react/resolver" to app.js )')
+      console.warn(
+        'ember-cli-react: app.js does not include Resolver. Please add the resolver manually.'
+      );
+      console.warn('( add import Resolver from "ember-cli-react/resolver" to app.js )');
     }
   },
 };
