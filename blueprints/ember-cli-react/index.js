@@ -1,6 +1,13 @@
 var pkg = require('../../package.json');
 const fs = require('fs');
 
+function getDependencyVersion(packageJson, name) {
+  var dependencies = packageJson.dependencies;
+  var devDependencies = packageJson.devDependencies;
+
+  return dependencies[name] || devDependencies[name];
+}
+
 function getPeerDependencyVersion(packageJson, name) {
   var peerDependencies = packageJson.peerDependencies;
 
@@ -24,15 +31,13 @@ module.exports = {
         target: getPeerDependencyVersion(pkg, 'react-dom'),
       },
       {
-        name: '@types/react-dom',
-        target: getPeerDependencyVersion(pkg, '@types/react-dom'),
-      },
-      {
-        name: '@types/react',
-        target: getPeerDependencyVersion(pkg, '@types/react'),
+        name: '@ember/render-modifiers',
+        target: getDependencyVersion(pkg, '@ember/render-modifiers'),
       },
     ];
+
     await this.addPackagesToProject(packages);
+
     let appFile = fs.readFileSync('app/app.js', 'utf8');
     if (appFile.includes('import Resolver from "ember-resolver"')) {
       appFile = appFile.replace(
