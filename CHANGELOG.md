@@ -1,4 +1,8 @@
-## [Unreleased]
+## [3.0.0] - 2022-04-01
+
+- **Breaking change:** remove ability to invoke `{{ react-component "SayHi" }}` directly by passing the react component name as a string.
+- Update all components to using glimmer components. ( This should not affect any usage, this is only a change in the core components )
+- update old package.json dependencies.
 
 ## [2.0.1] - 2021-09-11
 
