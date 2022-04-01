@@ -1,12 +1,6 @@
 var pkg = require('../../package.json');
 const fs = require('fs');
 
-function getPeerDependencyVersion(packageJson, name) {
-  var peerDependencies = packageJson.peerDependencies;
-
-  return peerDependencies[name];
-}
-
 module.exports = {
   description: 'Install ember-cli-react dependencies into your app.',
 
@@ -14,25 +8,6 @@ module.exports = {
 
   // Install react into host app
   afterInstall: async function () {
-    const packages = [
-      {
-        name: 'react',
-        target: getPeerDependencyVersion(pkg, 'react'),
-      },
-      {
-        name: 'react-dom',
-        target: getPeerDependencyVersion(pkg, 'react-dom'),
-      },
-      {
-        name: '@types/react-dom',
-        target: getPeerDependencyVersion(pkg, '@types/react-dom'),
-      },
-      {
-        name: '@types/react',
-        target: getPeerDependencyVersion(pkg, '@types/react'),
-      },
-    ];
-    await this.addPackagesToProject(packages);
     let appFile = fs.readFileSync('app/app.js', 'utf8');
     if (appFile.includes('import Resolver from "ember-resolver"')) {
       appFile = appFile.replace(

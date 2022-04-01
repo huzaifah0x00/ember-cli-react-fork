@@ -34,13 +34,15 @@
     "ember-auto-import": "^2.4.0",
     "ember-cli-babel": "^7.26.11",
     "ember-cli-htmlbars": "^6.0.1",
-    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react": "^7.29.4"
+  },
+  "peerDependencies": {
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "@ember/render-modifiers": "^2.0.4"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
-    "@ember/render-modifiers": "^2.0.4",
     "@ember/test-helpers": "^2.6.0",
     "@embroider/test-setup": "^1.2.0",
     "@glimmer/component": "^1.0.4",
