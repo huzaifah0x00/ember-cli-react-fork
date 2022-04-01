@@ -3,9 +3,9 @@
 const babel = require('broccoli-babel-transpiler');
 
 module.exports = {
-  name: 'ember-cli-react',
+  name: require('./package').name,
 
-  preprocessTree: function(type, tree) {
+  preprocessTree: function (type, tree) {
     if (type === 'js') {
       const babelOptions = {
         filterExtensions: ['jsx', 'tsx'],
@@ -15,11 +15,5 @@ module.exports = {
     }
 
     return tree;
-  },
-
-  options: {
-    autoImport: {
-      devtool: 'inline-source-map',
-    },
   },
 };

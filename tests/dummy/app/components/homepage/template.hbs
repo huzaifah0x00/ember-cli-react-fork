@@ -1,0 +1,12 @@
+<TodoList @onToggle={{this.onToggle}} @todos={{this.todos}} />
+
+Completed
+{{this.completedTodos.length}}
+todos
+
+<span>
+  <button type='button' {{on 'click' this.resetAll}}>Test</button>
+  {{#each this.completedTodos as |todo|}}
+    <span>{{todo.text}}, </span>
+  {{/each}}
+</span>

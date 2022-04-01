@@ -1,7 +1,6 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  tagName: 'span',
-
-  name: 'unknown',
-});
+export default class EmberSayHi extends Component {
+  tagName = 'span';
+  name = 'unknown';
+}

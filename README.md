@@ -1,11 +1,13 @@
 **Note:** This is a fork of https://github.com/pswai/ember-cli-react-fork due to its inactivity which was a fork of https://github.com/AltSchool/ember-cli-react due to its inactivity.
-It uses the same addon name so it is almost a drop-in replacement.
+
+It uses the same addon name (as ember-cli-react) so it is almost a drop-in replacement. ( Unless you're using the syntax to invoke react-component directly ( {{ react-component "ReactComponentName" }} ), this was removed from this fork. )
 
 the primary purpose of this addon is to [enable tsx support](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/80a4907bd49730a604dcce6e89c261e3fbf80435), and update the resolver because it had [trouble finding some ember components](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/0c10fbd239725ac44562e1112ffa84770ab9da80).
 
 # ember-cli-react-fork
 
-[![Circle CI](https://circleci.com/gh/pswai/ember-cli-react-fork.svg?style=shield)](https://circleci.com/gh/pswai/ember-cli-react-fork)
+![Github CI](https://github.com/huzaifah0x00/ember-cli-react-fork/actions/workflows/ci.yml/badge.svg)
+
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 Use clean React component hierarchies inside your Ember app.
@@ -14,13 +16,15 @@ Use clean React component hierarchies inside your Ember app.
 
 ## How does this work? What exactly is this addon doing to my Ember app?
 
-The addon adds a custom [resolver](https://github.com/ember-cli/ember-resolver) (Simply put, A resolver is what is responsible for looking up the component definition in the component factory whenever the Ember App encounters a component in any .hbs file...) to your Ember App.
+The addon adds a custom [resolver](https://github.com/ember-cli/ember-resolver) to your Ember App ( A resolver is what is responsible for looking up the component definition in the component factory whenever the Ember App encounters a component in any .hbs file...) .
 
 What this custom resolver does is enables you to:
 
-1. use PascalCase filenames for component files ( this allows you to use the React convention of PascalCase filenames in Ember.js app ( which enforces kebab-case by default ) )
+1. use PascalCase filenames for component files ( this allows you to use the React convention of PascalCase filenames in Ember.js app ( which otherwise enforces kebab-case by default ) )
+
 2. export React components ( functional or class-based ) from a component file and expect it to work without doing any extra steps...
-3. This is done by checking if the resolved file exports a React component ( see [resolver.js](./addon/resolver.js) for more details ) and wrapping the exported React component with an  [Ember component (react-component.js)](./addon/components/react-component.js) this component calls ReactDOM.render in it's `didRender()` method and renders the original React Component onto the DOM, while passing all the props recieved through the hbs file to the actual React Component. see [react-component.js](./addon/components/react-component.js) for more details on how this is implemented.
+
+   This is done by checking if the resolved file exports a React component ( see [resolver.js](./addon/resolver.js) for more details ) and wrapping the exported React component with an  [Ember component (react-wrapper-component.js)](./addon/components/react-wrapper-component.js). This component calls ReactDOM.render in it's `didRender()` method and renders the original React Component onto the DOM, while passing all the props recieved through the hbs file to the actual React Component. see [react-wrapper-component.js](./addon/components/react-wrapper-component.js) for more details on how this is implemented.
 
 
 ## Install
@@ -41,19 +45,18 @@ If you have installed `ember-cli-react` with the standard way then you should be
 fine. Otherwise, you will need to manually update the first line of
 `app/resolver.js` to `import Resolver from 'ember-cli-react/resolver';`.
 
-**NOTE:** the addon should update app.js automatically, but in case it doesn't... make sure your app.js uses the custom resolver (app/resolver.js) instead of the default 'ember-resolver' package
+**NOTE:** the addon should update app.js automatically, but in case it doesn't... make sure your app.js uses the custom resolver (app/resolver.js) instead of the default 'ember-resolver' package.
+
+**NOTE:** You might also need to add a `"jsx": "react"` flag in your project's tsconfig.json or jsconfig.json file.
 
 Then you should be good to go :)
 
-</p>
-</details>
+# Usage
 
-## Usage
-
-Write your React component as usual:
+Write your React component as usual ( you can use both .tsx or .jsx ):
 
 ```jsx
-// app/components/say-hi.jsx
+// app/components/say-hi.tsx
 import React from 'react';
 
 const SayHi = props => <span>Hello {props.name}</span>;
@@ -64,11 +67,11 @@ export default SayHi;
 Then render your component in a handlebars template:
 
 ```handlebars
+<SayHi @name="Alex" />
+
+<!-- you can also use the old syntax -->
 {{say-hi name="Alex"}}
 ```
-
-**NOTE**: Currently, `ember-cli-react` recognizes React components with `.jsx`
-extension only.
 
 ## Block Form
 
@@ -76,9 +79,9 @@ Your React component can be used in block form to allow composition with
 existing Ember or React components.
 
 ```handlebars
-{{#react-panel}}
-  {{ember-say-hi name="World!"}}
-{{/react-panel}}
+<ReactPanel>
+	<EmberSayHi @name="World!" />
+</ReactPanel>
 ```
 
 The children of `react-panel` will be populated to `props.children`.
@@ -88,15 +91,15 @@ Note that if the children contains mutating structure (e.g. `{{if}}`,
 issue](https://github.com/yapplabs/ember-wormhole/issues/66#issuecomment-263575168).
 
 ```handlebars
-{{#react-panel}}
+<ReactPanel>
   <div>
     {{#if isComing}}
-      {{ember-say-hi name="World!"}}
+		<EmberSayHi @name="World!" />
     {{else}}
-      See ya!
+		See ya!
     {{/if}}
   </div>
-{{/react-panel}}
+</ReactPanel>
 ```
 
 Although this is possible, block form should be used as a tool to migrate Ember
@@ -107,27 +110,22 @@ performance.
 ## PascalCase File Naming
 
 You can name your React component files using either the Ember convention of
-[`kebab-case`](https://ember-cli.com/naming-conventions) or the React convention
-of [`PascalCase`](https://github.com/airbnb/javascript/tree/master/react#naming)
-.
+[`kebab-case`](https://ember-cli.com/naming-conventions) or the React convention of [`PascalCase`](https://github.com/airbnb/javascript/tree/master/react#naming).
 
 ```handlebars
 {{!-- Both `user-avatar.jsx` and `UserAvatar.jsx` work --}}
-{{user-avatar}}
+{{UserAvatar}}
 ```
 
-Referencing your React components with `PascalCase` in handlebars is also
-supported when invoked using `react-component`.
+You can use either the newer Octane syntax or the old syntax for referencing react components, both ways work.
 
 ```handlebars
 {{!-- OK! --}}
-{{react-component "user-avatar"}}
+{{user-avatar}}
 
 {{!-- OK! --}}
-{{react-component "UserAvatar"}}
+<UserAvatar />
 
-{{!-- Single worded components are OK too! --}}
-{{react-component "Avatar"}}
 ```
 
 ### React Components are Prioritized
@@ -157,12 +155,12 @@ actions from within React components.
 #### app/templates/application.hbs
 
 ```handlebars
-{{todo-list
-  onToggle=(action onToggle)
-  todos=model
-}}
+<TodoList
+  @onToggle={{this.onToggle}}
+  @todos={{model}}
+/>
 
-Completed {{completedTodos.length}} todos
+Completed {{this.completedTodos.length}} todos
 ```
 
 #### app/components/todo-list.jsx
@@ -215,4 +213,3 @@ Ember route or component.
 In order to create minified production builds of React you must set
 `NODE_ENV=production`.
 
-## 
