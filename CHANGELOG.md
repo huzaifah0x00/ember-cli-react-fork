@@ -1,3 +1,6 @@
+## [3.0.1] - 2022-04-01
+- Bugfix: missing peer dependencies
+
 ## [3.0.0] - 2022-04-01
 
 - **Breaking change:** remove ability to invoke `{{ react-component "SayHi" }}` directly by passing the react component name as a string.
