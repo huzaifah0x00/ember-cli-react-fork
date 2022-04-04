@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
+import { getOwner } from '@ember/application';
 
 import YieldWrapper from './yield-wrapper';
 
@@ -31,6 +32,7 @@ export default class ReactWrapperComponent extends Component {
       throw new Error('reactComponent is not defined, did you forget to use .wrap?');
 
     const props = this.emberArgs;
+    props.emberOwner = getOwner(this);
 
     // Determine the children
     // If there is already `children` in `props`, we just pass it down (it can be function).
