@@ -1,4 +1,17 @@
+## [3.0.4] - 2022-04-15
+
+- add emberOwner prop to all components ( allows using ember's DI factory )
+
+## [3.0.3] - 2022-04-04
+
+- nothing significant... just updated yarn.lock
+
+## [3.0.2] - 2022-04-01
+
+- remove react 18 from supported versions ( requires R&D to see if it's compatible )
+
 ## [3.0.1] - 2022-04-01
+
 - Bugfix: missing peer dependencies
 
 ## [3.0.0] - 2022-04-01
