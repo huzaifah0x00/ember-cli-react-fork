@@ -204,6 +204,25 @@ export default class TodoItem extends React.Component {
 }
 ```
 
+## Accessing Ember services from react
+The plugin also adds an additional prop: `emberOwner` to all react components that are placed directly inside an .hbs file  
+This prop points to the "owner" of our react component ( Everything in Ember has an owner, see [getOwner](https://api.emberjs.com/ember/release/functions/@ember%2Fapplication/getOwner) )  
+This owner can be used to lookup anything across our Ember application including services.
+```jsx
+import React from 'react';
+
+export default function HelloService ( props: { emberOwner: Object } ) {
+  const doSomething = () => {
+    const alertService = props.emberOwner.lookup('service:alert-service');
+    alertService.showAlert("yay, service works... when called from react");
+  }
+
+  return (
+    <button onClick={doSomething} />
+  );
+}
+```
+
 ## What's Missing
 
 There is no React `link-to` equivalent for linking to Ember routes inside of
