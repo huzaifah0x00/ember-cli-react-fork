@@ -2,7 +2,7 @@
 
 It uses the same addon name (as ember-cli-react) so it is almost a drop-in replacement. ( Unless you're using the syntax to invoke react-component directly ( {{ react-component "ReactComponentName" }} ), this was removed from this fork. )
 
-the primary purpose of this addon is to [enable tsx support](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/80a4907bd49730a604dcce6e89c261e3fbf80435), and update the resolver because it had [trouble finding some ember components](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/0c10fbd239725ac44562e1112ffa84770ab9da80).
+the primary purpose of this fork is to [enable tsx support](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/80a4907bd49730a604dcce6e89c261e3fbf80435), and update the resolver because it had [trouble finding some ember components](https://github.com/huzaifah0x00/ember-cli-react-fork/commit/0c10fbd239725ac44562e1112ffa84770ab9da80).
 
 # ember-cli-react-fork
 
