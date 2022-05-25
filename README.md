@@ -205,15 +205,15 @@ export default class TodoItem extends React.Component {
 ```
 
 ## Accessing Ember services from react
-The plugin also adds an additional prop: `emberOwner` to all react components that are placed directly inside an .hbs file  
-This prop points to the "owner" of our react component ( Everything in Ember has an owner, see [getOwner](https://api.emberjs.com/ember/release/functions/@ember%2Fapplication/getOwner) )  
-This owner can be used to lookup anything across our Ember application including services.
+You can use the useEmberService hook to lookup services defined in the Ember application.
+
 ```jsx
 import React from 'react';
+import { useEmberService } from 'ember-cli-react';
 
-export default function HelloService ( props: { emberOwner: Object } ) {
+export default function HelloService () {
   const doSomething = () => {
-    const alertService = props.emberOwner.lookup('service:alert-service');
+    const alertService = useEmberService('alert-service');
     alertService.showAlert("yay, service works... when called from react");
   }
 

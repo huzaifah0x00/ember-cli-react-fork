@@ -1,3 +1,7 @@
+## [3.1.0] - 2022-05-25
+- Added useEmberService and useEmberLookup hooks
+- remove the emberOwner prop in favor of using hooks (useEmberService, useEmberLookup)
+
 ## [3.0.4] - 2022-04-15
 
 - add emberOwner prop to all components ( allows using ember's DI factory )

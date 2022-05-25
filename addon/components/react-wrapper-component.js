@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { getOwner } from '@ember/application';
 
 import YieldWrapper from './yield-wrapper';
+import { _EmberOwnerContext } from '../hooks';
 
 export default class ReactWrapperComponent extends Component {
   reactComponent;
@@ -32,7 +33,6 @@ export default class ReactWrapperComponent extends Component {
       throw new Error('reactComponent is not defined, did you forget to use .wrap?');
 
     const props = this.emberArgs;
-    props.emberOwner = getOwner(this);
 
     // Determine the children
     // If there is already `children` in `props`, we just pass it down (it can be function).
@@ -51,8 +51,13 @@ export default class ReactWrapperComponent extends Component {
       ];
     }
 
-    ReactDOM.render(React.createElement(this.reactComponent, props, children), element);
+    const reactElement = React.createElement(this.reactComponent, props, children);
+    ReactDOM.render(this.wrapWithContextProvider(reactElement), element);
   };
+
+  wrapWithContextProvider(component) {
+    return React.createElement(_EmberOwnerContext.Provider, { value: getOwner(this) }, component);
+  }
 
   onYieldBlockInserted = (element) => {
     this.blockChildren = element.childNodes;

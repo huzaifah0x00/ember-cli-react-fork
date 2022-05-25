@@ -210,6 +210,11 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
     assert.true(clickActionHandler.called);
   });
 
+  test('can use the useEmberService hook', async function (assert) {
+    await render(hbs`<ComponentUsingEmberService />`);
+    assert.dom(this.element).hasText('Hello from Test Service');
+  });
+
   // This is no longer supported
   // test('supports dynamically defined react component name', async function(assert) {
   //   this.set('reactComponentName', 'say-hi');
