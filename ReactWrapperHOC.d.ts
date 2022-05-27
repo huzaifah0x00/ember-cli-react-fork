@@ -1,10 +1,8 @@
-import React, { FunctionComponent } from 'react';
-declare const ReactWrapperHOC: (Component: FunctionComponent) => {
-    ({ ...props }: {
-        [x: string]: any;
-    }): React.FunctionComponentElement<{}>;
-    isEmberCliReactComponent: boolean;
+import { ComponentType } from 'react';
+declare function ReactWrapperHOC<P>(Component: ComponentType<P>): typeof Component;
+declare type IdentifiableComponentType = ComponentType & {
+    isEmberCliReactComponent?: boolean;
 };
-export declare function isWrappedWithHOC(componentObject: any): boolean;
+export declare function isWrappedWithHOC(componentObject: IdentifiableComponentType): boolean;
 export default ReactWrapperHOC;
 //# sourceMappingURL=ReactWrapperHOC.d.ts.map

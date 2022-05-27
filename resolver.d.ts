@@ -1,6 +1,11 @@
 import Resolver from 'ember-resolver';
-export default class ReactResolver extends Resolver {
-    resolveComponent(parsedName: any): any;
-    _resolveReactStyleFile(parsedName: any): any;
+interface PrasedName {
+    fullName: string;
+    fullNameWithoutType: string;
 }
+export default class ReactResolver extends Resolver {
+    resolveComponent(parsedName: PrasedName): any;
+    _resolveReactStyleFile(parsedName: PrasedName): any;
+}
+export {};
 //# sourceMappingURL=resolver.d.ts.map
