@@ -280,6 +280,11 @@ module('Integration | Component | react-wrapper-component', function (hooks) {
       }
     );
 
+    test('Works with typescript (tsx) file', async function (assert) {
+      await render(hbs`<TypescriptComponent @name="There"/>`);
+      assert.dom(this.element).hasText('Hello There from typescript');
+    });
+
     // The React file will overwrite Ember file as that's how Broccoli-React works.
     // Skipping this to keep this in mind.
     module.skip(

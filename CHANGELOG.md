@@ -1,4 +1,9 @@
+## [3.1.1] - 2022-05-27
+
+- converted addon to typescript, ( ember-cli-typescript )
+
 ## [3.1.0] - 2022-05-25
+
 - Added useEmberService and useEmberLookup hooks
 - remove the emberOwner prop in favor of using hooks (useEmberService, useEmberLookup)
 

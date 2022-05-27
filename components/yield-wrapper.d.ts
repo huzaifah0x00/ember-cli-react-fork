@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-
+import React from 'react';
 /**
  * A React component that is used to render HTML Nodes.
  *
@@ -14,16 +13,7 @@ import React, { useEffect, useRef } from 'react';
  *
  * Integration guide: https://reactjs.org/docs/integrating-with-other-libraries.html
  */
-export default function YieldWrapper(props) {
-  const el = useRef(null);
-
-  useEffect(() => {
-    const fragment = document.createDocumentFragment();
-    props.nodes.forEach((n) => fragment.appendChild(n));
-
-    // This replace the original DOM element
-    el.current.parentNode.replaceChild(fragment, el.current);
-  }, []);
-
-  return React.createElement('span', { ref: el });
-}
+export default function YieldWrapper(props: {
+    nodes: Node[];
+}): React.DetailedReactHTMLElement<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+//# sourceMappingURL=yield-wrapper.d.ts.map
