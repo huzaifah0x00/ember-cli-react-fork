@@ -1,14 +1,16 @@
-import React, { FunctionComponent } from 'react';
+import React, { ComponentType, FunctionComponent } from 'react';
 
-function ReactWrapperHOC(Component: any): typeof Component {
-  function IdentifiableAsReactComponent(props: any) {
+function ReactWrapperHOC<P>(Component: ComponentType<P>): typeof Component {
+  function IdentifiableReactComponent(props: P) {
     return React.createElement(Component, props);
   }
-  IdentifiableAsReactComponent.isEmberCliReactComponent = true;
-  return IdentifiableAsReactComponent;
+  IdentifiableReactComponent.isEmberCliReactComponent = true;
+  return IdentifiableReactComponent;
 }
 
-export function isWrappedWithHOC(componentObject: any): boolean {
+type IdentifiableComponentType = ComponentType & { isEmberCliReactComponent?: boolean };
+
+export function isWrappedWithHOC(componentObject: IdentifiableComponentType): boolean {
   return componentObject?.isEmberCliReactComponent ?? false;
 }
 
