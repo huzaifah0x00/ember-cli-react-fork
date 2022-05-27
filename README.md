@@ -53,15 +53,18 @@ Then you should be good to go :)
 
 # Usage
 
-Write your React component as usual ( you can use both .tsx or .jsx ):
+Write your React component as usual ( you can use both .tsx or .jsx )
+
+and just wrap it with ReactWrapperHOC 
 
 ```jsx
 // app/components/say-hi.tsx
 import React from 'react';
+import { ReactWrapperHOC } from 'ember-cli-react';
 
 const SayHi = props => <span>Hello {props.name}</span>;
 
-export default SayHi;
+export default ReactWrapperHOC(SayHi);
 ```
 
 Then render your component in a handlebars template:

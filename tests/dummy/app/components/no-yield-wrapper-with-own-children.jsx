@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactWrapperHOC } from 'ember-cli-react';
 
 const NoYieldWrapperWithOwnChildren = props => {
   if (React.Children.count(props.children)) {
@@ -13,4 +14,4 @@ const NoYieldWrapperWithOwnChildren = props => {
   );
 };
 
-export default NoYieldWrapperWithOwnChildren;
+export default ReactWrapperHOC(NoYieldWrapperWithOwnChildren);

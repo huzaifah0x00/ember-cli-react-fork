@@ -1,7 +1,9 @@
 import React from 'react';
-import { useEmberService } from 'ember-cli-react';
+import { useEmberService, ReactWrapperHOC } from 'ember-cli-react';
 
-export default function ComponentUsingEmberService() {
+function ComponentUsingEmberService() {
   const testService = useEmberService('test');
   return <p>{testService.getText()}</p>;
 }
+
+export default ReactWrapperHOC(ComponentUsingEmberService);
