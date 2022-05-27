@@ -1,6 +1,6 @@
 import React, { ComponentType, FunctionComponent } from 'react';
 
-function ReactWrapperHOC<P>(Component: ComponentType<P>): typeof Component {
+function withEmberHOC<P>(Component: ComponentType<P>): typeof Component {
   function IdentifiableReactComponent(props: P) {
     return React.createElement(Component, props);
   }
@@ -14,4 +14,4 @@ export function isWrappedWithHOC(componentObject: IdentifiableComponentType): bo
   return componentObject?.isEmberCliReactComponent ?? false;
 }
 
-export default ReactWrapperHOC;
+export default withEmberHOC;

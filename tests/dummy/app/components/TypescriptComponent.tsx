@@ -1,4 +1,4 @@
-import { ReactWrapperHOC } from 'ember-cli-react';
+import { withEmberHOC } from 'ember-cli-react';
 import React from 'react';
 
 interface IProps {
@@ -9,4 +9,4 @@ const SayHiWithTypescript = (props: IProps) => {
   return <span className="SayHi">Hello {props.name} from typescript</span>;
 };
 
-export default ReactWrapperHOC(SayHiWithTypescript);
+export default withEmberHOC(SayHiWithTypescript);
