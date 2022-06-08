@@ -53,15 +53,18 @@ Then you should be good to go :)
 
 # Usage
 
-Write your React component as usual ( you can use both .tsx or .jsx ):
+Write your React component as usual ( you can use both .tsx or .jsx )
+
+and just wrap it with withEmberHOC 
 
 ```jsx
 // app/components/say-hi.tsx
 import React from 'react';
+import { withEmberHOC } from 'ember-cli-react';
 
 const SayHi = props => <span>Hello {props.name}</span>;
 
-export default SayHi;
+export default withEmberHOC(SayHi);
 ```
 
 Then render your component in a handlebars template:
@@ -168,8 +171,9 @@ Completed {{this.completedTodos.length}} todos
 ```jsx
 import React from 'react';
 import TodoItem from './todo-item';
+import { withEmberHOC } from 'ember-cli-react';
 
-export default function(props) {
+function TodoList(props) {
   return (
     <ul>
       {props.todos.map(todo => {
@@ -178,6 +182,8 @@ export default function(props) {
     </ul>
   );
 }
+
+export default withEmberHOC(TodoList);
 ```
 
 #### app/components/todo-item.jsx
@@ -185,8 +191,9 @@ export default function(props) {
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { withEmberHOC } from 'ember-cli-react';
 
-export default class TodoItem extends React.Component {
+class TodoItem extends React.Component {
   render() {
     let todo = this.props.todo;
 
@@ -202,6 +209,8 @@ export default class TodoItem extends React.Component {
     );
   }
 }
+
+export default withEmberHOC(TodoItem);
 ```
 
 ## Accessing Ember services from react
@@ -210,8 +219,9 @@ You can use the useEmberService hook to lookup services defined in the Ember app
 ```jsx
 import React from 'react';
 import { useEmberService } from 'ember-cli-react';
+import { withEmberHOC } from 'ember-cli-react';
 
-export default function HelloService () {
+function HelloService () {
   const doSomething = () => {
     const alertService = useEmberService('alert-service');
     alertService.showAlert("yay, service works... when called from react");
@@ -221,6 +231,8 @@ export default function HelloService () {
     <button onClick={doSomething} />
   );
 }
+
+export default withEmberHOC(HelloService);
 ```
 
 ## What's Missing

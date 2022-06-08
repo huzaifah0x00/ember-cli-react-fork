@@ -1,4 +1,5 @@
 import React from 'react';
+import { withEmberHOC } from 'ember-cli-react';
 
 const NoYieldWrapperWithProps = props => {
   const { text, children } = props;
@@ -10,4 +11,4 @@ const NoYieldWrapperWithProps = props => {
   return <span>Rendered correctly with "{text}"</span>;
 };
 
-export default NoYieldWrapperWithProps;
+export default withEmberHOC(NoYieldWrapperWithProps);

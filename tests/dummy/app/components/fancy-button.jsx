@@ -1,4 +1,5 @@
 import React from 'react';
+import { withEmberHOC } from 'ember-cli-react';
 
 const FancyButton = props => {
   return (
@@ -8,4 +9,4 @@ const FancyButton = props => {
   );
 };
 
-export default FancyButton;
+export default withEmberHOC(FancyButton);

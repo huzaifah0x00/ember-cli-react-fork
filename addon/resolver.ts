@@ -1,9 +1,9 @@
 import { classify } from '@ember/string';
 import Resolver from 'ember-resolver';
 import ReactComponentWrapper from 'ember-cli-react/components/react-wrapper-component';
-import React from 'react';
+import * as withEmberHOC from './ReactWrapperHOC';
 
-interface IParsedName {
+interface PrasedName {
   fullName: string;
   fullNameWithoutType: string;
 }
@@ -13,16 +13,16 @@ export default class ReactResolver extends Resolver {
   // For example, having `{{foo-bar}}` or <FooBar> in a template will trigger `resolveComponent`
   // with the name full name of `component:foo-bar`.
 
-  resolveComponent(parsedName: IParsedName) {
+  resolveComponent(parsedName: PrasedName) {
     // First try to resolve with React-styled file name (e.g. SayHi).
     // If nothing is found, try again with original convention via `resolveOther`.
-    // @ts-ignore // because ember-resolver doesn't provide typings
+    // @ts-ignore // because ember-resolver doesn't provide types for Resolver class
     let result = this._resolveReactStyleFile(parsedName) || this.resolveOther(parsedName);
 
     // If there is no result found after all, return nothing
     if (!result) return;
 
-    const isReactCompnent = this._isReactComponent(result);
+    const isReactCompnent = withEmberHOC.isWrappedWithHOC(result);
     if (isReactCompnent) {
       return ReactComponentWrapper.wrap(result);
     }
@@ -34,7 +34,7 @@ export default class ReactResolver extends Resolver {
   // A React-style file name is in PascalCase.
   // This is made a private method to prevent creation of "react-style-file:*"
   // factory.
-  _resolveReactStyleFile(parsedName: IParsedName) {
+  _resolveReactStyleFile(parsedName: PrasedName) {
     const originalName = parsedName.fullNameWithoutType;
 
     // Convert the compnent name while preserving namespaces
@@ -45,27 +45,8 @@ export default class ReactResolver extends Resolver {
     const parsedNameWithPascalCase = Object.assign({}, parsedName, {
       fullNameWithoutType: newName,
     });
-    // @ts-ignore // because ember-resolver doesn't provide typings
+    // @ts-ignore // because ember-resolver doesn't provide types for Resolver class
     const result = this.resolveOther(parsedNameWithPascalCase);
     return result;
-  }
-
-  _isClassComponent(component: React.ComponentType) {
-    return typeof component === 'function' && !!component.prototype?.isReactComponent;
-  }
-
-  _isFunctionComponent(component: React.ComponentType) {
-    // This check relies on the fact that the JSX is transpiled to
-    // React.createElement(*) or _react *.createElement(*)
-    if (typeof component === 'function') {
-      const functionSourceCode = String(component);
-      return /react.*\.createElement\(/gi.test(functionSourceCode);
-    }
-    return false;
-  }
-
-  _isReactComponent(component: React.ComponentType) {
-    // https://stackoverflow.com/a/41658173
-    return this._isClassComponent(component) || this._isFunctionComponent(component);
   }
 }

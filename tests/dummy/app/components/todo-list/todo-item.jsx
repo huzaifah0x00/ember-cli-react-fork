@@ -1,4 +1,5 @@
 import React from 'react';
+import { withEmberHOC } from 'ember-cli-react';
 
 class TodoItem extends React.Component {
   render() {
@@ -17,4 +18,4 @@ class TodoItem extends React.Component {
   }
 }
 
-export default TodoItem;
+export default withEmberHOC(TodoItem);

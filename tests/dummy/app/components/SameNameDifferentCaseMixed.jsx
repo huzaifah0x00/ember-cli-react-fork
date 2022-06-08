@@ -1,7 +1,8 @@
 import React from 'react';
+import { withEmberHOC } from 'ember-cli-react';
 
 const SameNameDifferentCaseMixed = () => {
   return <span>My file name is "SameNameDifferentCaseMixed.jsx"</span>;
 };
 
-export default SameNameDifferentCaseMixed;
+export default withEmberHOC(SameNameDifferentCaseMixed);

@@ -1,3 +1,11 @@
+## [4.0.1] - 2022-06-08
+- update package.json version to 4.0.1
+- update README.md
+
+## [4.0.0] - 2022-05-27
+
+- **Breaking change:** Changed the way our custom resolver works... Now all components must be wrapped with an HOC for our resolver to detect it.
+
 ## [3.1.1] - 2022-05-27
 
 - converted addon to typescript, ( ember-cli-typescript )

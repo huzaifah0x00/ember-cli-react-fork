@@ -21,11 +21,7 @@ export default class ReactWrapperComponent extends Component {
     return { ...this.args };
   }
 
-  onUpdate = (element: any) => {
-    console.log(element);
-    console.log(
-      'onUpdate called... TODO: debug this if you see this message infinitely ( ember-cli-react )'
-    );
+  onUpdate = (element: Element) => {
     this.didRender(element);
   };
 
