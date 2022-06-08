@@ -1,8 +1,8 @@
 import React from 'react';
-import { ReactWrapperHOC } from 'ember-cli-react';
+import { withEmberHOC } from 'ember-cli-react';
 
 function TestReactComponent() {
   return <div id="test-react">React test</div>;
 }
 
-export default ReactWrapperHOC(TestReactComponent);
+export default withEmberHOC(TestReactComponent);

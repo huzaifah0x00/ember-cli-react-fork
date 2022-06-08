@@ -1,7 +1,7 @@
 import { classify } from '@ember/string';
 import Resolver from 'ember-resolver';
 import ReactComponentWrapper from 'ember-cli-react/components/react-wrapper-component';
-import * as ReactWrapperHOC from './ReactWrapperHOC';
+import * as withEmberHOC from './ReactWrapperHOC';
 
 interface PrasedName {
   fullName: string;
@@ -22,7 +22,7 @@ export default class ReactResolver extends Resolver {
     // If there is no result found after all, return nothing
     if (!result) return;
 
-    const isReactCompnent = ReactWrapperHOC.isWrappedWithHOC(result);
+    const isReactCompnent = withEmberHOC.isWrappedWithHOC(result);
     if (isReactCompnent) {
       return ReactComponentWrapper.wrap(result);
     }

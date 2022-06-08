@@ -1,8 +1,8 @@
 import React from 'react';
-import { ReactWrapperHOC } from 'ember-cli-react';
+import { withEmberHOC } from 'ember-cli-react';
 
 const SameNameJsxWithPascalCase = () => {
   return <span>My file name is "SameNameJsx.jsx"</span>;
 };
 
-export default ReactWrapperHOC(SameNameJsxWithPascalCase);
+export default withEmberHOC(SameNameJsxWithPascalCase);

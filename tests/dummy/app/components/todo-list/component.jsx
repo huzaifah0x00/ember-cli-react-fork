@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoItem from './todo-item';
-import { ReactWrapperHOC } from 'ember-cli-react';
+import { withEmberHOC } from 'ember-cli-react';
 
 const TodoList = (props) => {
   return (
@@ -12,4 +12,4 @@ const TodoList = (props) => {
   );
 };
 
-export default ReactWrapperHOC(TodoList);
+export default withEmberHOC(TodoList);
